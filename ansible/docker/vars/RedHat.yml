@@ -1,0 +1,4 @@
+repo_url: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+docker_pkg: docker
+docker_group: docker
+docker_user: mayman

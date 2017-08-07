@@ -1,0 +1,23 @@
+# Managed docker by Ansible for RedHatOS
+
+- name: Add docker repository
+  yum_repository:
+    name: epel.repo
+    description: EPEL YUM repo
+    baseurl: "{{ repo_url }}"
+    state: present
+    #enabled: 1
+- name: Update repositories cache 
+  command: /usr/bin/yum update -y
+- name: Install latest version of Docker
+  yum: name={{ docker_pkg }} state=present 
+  tags: doc-install
+- name: ensure {{ docker_group }} group present
+  group: name={{ docker_group }} state=present
+  ignore_errors: yes
+  tags: docker_group
+- name: ensure  {{ docker-user }}  present
+  user: name={{ docker_user }}  group={{ docker_group }}
+  ignore_errors: yes
+  notify: restart docker
+  tags: docker_user
